@@ -1,37 +1,97 @@
 require 'find'
 require 'script/plugin'
+require 'script/generate'
+require 'hpricot'
 
 namespace :extmvc do
   
-  desc "Concatenates JS files into one called solitaire-all.js"
-  task :concatenate do
-    files = ["Game.js", "MainWindow.js", "Deck.js", "Dealer.js", "Card.js", "Pack.js", "Stack.js", "SuitStack.js"]
-    concatenated_filename = "javascripts/solitaire/solitaire-all.js"
+  namespace :build do
     
-    #remove old files, create blank ones again
-    File.delete(concatenated_filename) and puts "Deleted old file" if File.exists?(concatenated_filename)
-    FileUtils.touch(concatenated_filename)
+    desc "Builds concatenated/minified javascript and css files of all local assets"
+    task :all do
+      Rake::Task["extmvc:build:concatenate_js"].execute
+      Rake::Task["extmvc:build:concatenate_css"].execute
+      Rake::Task["extmvc:build:minify_js"].execute
+      # Rake::Task["extmvc:build:minify_css"].execute
+    end
     
-    file = File.open(concatenated_filename, 'w') do |f|
-      files.each do |i|
-        f.puts(IO.read("javascripts/solitaire/#{i}"))
-        f.puts("\n")
+    task :concatenate_js do
+      puts; puts "Concatenating Javascript files"
+      
+      files = []
+      html_filename = ENV['file'] || "index.html"
+      
+      #find all script files in the html file.  Ignore any with a class 'concat-ignore'
+      doc = Hpricot(open(html_filename))
+      (doc/"script[@class!='concat-ignore']").each {|s| files.push(s['src']) if s['src']}
+    
+      concatenate_files(files, "public/application-all.js")
+    end
+    
+    task :concatenate_css do
+      puts "Concatenating CSS files"
+      
+      files = []
+      html_filename = ENV['file'] || "index.html"
+      
+      #find all script files in the html file.  Ignore any with a class 'concat-ignore'
+      doc = Hpricot(open(html_filename))
+      (doc/"link[@re!='stylesheet']").each {|s| files.push(s['href']) if s['href'] && !s['href'].match(/http(.*)/)}
+    
+      concatenate_files(files, "public/stylesheets/application-all.css")
+    end
+    
+    task :minify_js do
+      puts "Minifying Javascript files"
+      
+      concatenated_filename = "public/application-all.js"
+      minified_filename     = "public/application-all-min.js"
+      
+      FileUtils.rm(minified_filename) and puts "Deleted old #{minified_filename}" if File.exists?(minified_filename)
+      
+      system("java -jar script/yui-compressor/build/yuicompressor-2.4.jar #{concatenated_filename} -o #{minified_filename}")
+      
+      puts "Created minified file #{minified_filename}"; puts
+    end
+    
+    task :minify_css do
+      puts "Minifying CSS files"
+    end
+    
+    def concatenate_files(files, concatenated_filename)
+      #remove old files, create blank ones again
+      File.delete(concatenated_filename) and puts "Deleted old #{concatenated_filename}" if File.exists?(concatenated_filename)
+      FileUtils.touch(concatenated_filename)
+      
+      count = 0
+      file = File.open(concatenated_filename, 'w') do |f|
+        files.each do |i|
+          # remove the directory the app is in if add_dir is supplied
+          i = i.gsub(Regexp.new(ENV['app_dir']), '').gsub(/$(\/*)(.*)/, '\2') if ENV['app_dir']
+
+          f.puts(IO.read(i))
+          f.puts("\n")
+          count += 1
+        end
       end
+      
+      puts "Concatenated #{count} files into #{concatenated_filename}"; puts
     end
   end
   
-  desc "Minifies a JS file using YUI Compressor"
-  task :minify do
-    minified_filename = "javascripts/solitaire/solitaire-min.js"
-    FileUtils.rm(minified_filename) if File.exists?(minified_filename)
+  namespace :generate do
+    task :model do
+      fields = ENV['fields'].split(",").collect {|f| f.split(":")}
+      ExtMVC::Generators::Model.new(ENV['name'], fields).generate!
+    end
     
-    system("java -jar ../yui-compressor/build/yuicompressor-2.4.jar javascripts/solitaire/solitaire-all.js -o #{minified_filename}")
-  end
-  
-  desc "Prepares site for deployment (concatenates and minifies js code)"
-  task :deploy do
-    Rake::Task["extmvc:concatenate"].execute
-    Rake::Task["extmvc:minify"].execute
+    task :controller do
+      
+    end
+    
+    task :view do
+      
+    end
   end
   
   namespace :plugin do

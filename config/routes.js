@@ -21,4 +21,7 @@ Ext.ux.MVC.Router.defineRoutes = function(map) {
   //set up default routes
   map.connect(":controller/:action");
   map.connect(":controller/:action/:id");
+  
+  //if no url, should a default
+  map.root({controller: 'index', action: 'index'});
 };

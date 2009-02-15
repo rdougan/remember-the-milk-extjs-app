@@ -13,22 +13,10 @@ MyApp.OS = Ext.extend(Ext.ux.MVC.OS, {
     return {
       menu: {
         items: [
-          this.router.linkTo({controller: 'posts', action: 'index'}),
-          this.router.linkTo({controller: 'posts', action: 'new'  }),
-          
-          this.router.linkTo({controller: 'users', action: 'index'}),
-          this.router.linkTo({controller: 'users', action: 'new'  })
+          this.router.linkTo({controller: 'index', action: 'index'}, {text: 'Welcome'})
         ]
       },
-      useTabs: false,
-      main: {
-        items:  [
-          {
-            title: 'Welcome',
-            html:  '<p>Welcome to the MyApp application</p>'
-          }
-        ]
-      }
+      useTabs: false
     };
   }
 });
