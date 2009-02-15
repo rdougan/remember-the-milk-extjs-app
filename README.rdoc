@@ -42,7 +42,7 @@ Once you've built your app, upload only the 'public' folder to your web server. 
 * spec            - a directory to place your unit tests or specs
 * vendor          - holds any third-party code
 * vendor/ext      - contains the required version of ExtJS.  ExtJS 2.2 comes pre-installed here, with the Ext adapter.
-* vendor/mvc      - contains the required version of Ext MVC.  Most recent stable version installed by default.  Obtain latest version from http://github.com/edspencer/ext-* mvc/tree
+* vendor/mvc      - contains the required version of Ext MVC.  Most recent stable version installed by default.  Obtain latest version from http://github.com/extmvc/extmvc/tree
 * vendor/plugins  - contains any MVC-compatible plugins (such as viewport builders, model extensions etc)
 
 == Important Files:
