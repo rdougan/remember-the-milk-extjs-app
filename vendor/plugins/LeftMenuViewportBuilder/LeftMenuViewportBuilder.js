@@ -1,19 +1,19 @@
 /**
- * @class Ext.ux.MVC.plugin.LeftMenuViewportBuilder
- * @extends Ext.ux.MVC.ViewportBuilder
+ * @class ExtMVC.plugin.LeftMenuViewportBuilder
+ * @extends ExtMVC.ViewportBuilder
  * Creates a viewport with a left menu and a main tabpanel.
  */
-Ext.ux.MVC.plugin.LeftMenuViewportBuilder = function() {
-  Ext.ux.MVC.plugin.LeftMenuViewportBuilder.superclass.constructor.call(this);
+ExtMVC.plugin.LeftMenuViewportBuilder = function() {
+  ExtMVC.plugin.LeftMenuViewportBuilder.superclass.constructor.call(this);
 };
-Ext.extend(Ext.ux.MVC.plugin.LeftMenuViewportBuilder, Ext.ux.MVC.ViewportBuilder, {
+Ext.extend(ExtMVC.plugin.LeftMenuViewportBuilder, ExtMVC.ViewportBuilder, {
   
   /**
    * Creates the viewport elements, taking config options from OS.viewportBuilderConfig
-   * @param {Ext.ux.MVC.OS} os The OS instance to link built viewport components to
+   * @param {ExtMVC.OS} os The OS instance to link built viewport components to
    * Assigns this.topBar, this.sideMenu, this.mainPanel, this.contentPanel and this.viewport
    * to the passed os when calling build(os)
-   * @return {Ext.ux.MVC.OS} The same OS instance, now decorated with topBar, sideMenu, mainPanel,
+   * @return {ExtMVC.OS} The same OS instance, now decorated with topBar, sideMenu, mainPanel,
    * contentPanel and viewport
    */
   build: function(os) {
@@ -76,10 +76,10 @@ Ext.extend(Ext.ux.MVC.plugin.LeftMenuViewportBuilder, Ext.ux.MVC.ViewportBuilder
     });
             
     //Tell controllers to add views to the mainPanel instead of rendering directly
-    Ext.ux.MVC.Controller.prototype.addTo = os.mainPanel;
+    ExtMVC.Controller.prototype.addTo = os.mainPanel;
     
     //don't render views automatically, return a renderable instantiation instead (a subclass of Ext.Component)
-    Ext.ux.MVC.Controller.prototype.renderMethod = 'add';
+    ExtMVC.Controller.prototype.renderMethod = 'add';
     
     return os;
   },
@@ -127,4 +127,4 @@ Ext.extend(Ext.ux.MVC.plugin.LeftMenuViewportBuilder, Ext.ux.MVC.ViewportBuilder
   
 });
 
-Ext.ux.MVC.ViewportBuilderManager.register('leftmenu', Ext.ux.MVC.plugin.LeftMenuViewportBuilder);
+ExtMVC.ViewportBuilderManager.register('leftmenu', ExtMVC.plugin.LeftMenuViewportBuilder);

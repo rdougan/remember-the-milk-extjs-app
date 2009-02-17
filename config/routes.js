@@ -1,7 +1,7 @@
 /**
  * Defines all routes required for this application
  */
-Ext.ux.MVC.Router.defineRoutes = function(map) {
+ExtMVC.Router.defineRoutes = function(map) {
   /**
    * Sets up REST-like urls for a given model or models:
    * 

@@ -1,18 +1,18 @@
 /**
- * @class Ext.ux.MVC.plugin.LeftMenuViewportBuilder.MenuHeader
+ * @class ExtMVC.plugin.LeftMenuViewportBuilder.MenuHeader
  * @extends Ext.Component
  * Renders a header divider element in a menu
  */
-Ext.ux.MVC.plugin.LeftMenuViewportBuilder.MenuHeader = function(config) {
+ExtMVC.plugin.LeftMenuViewportBuilder.MenuHeader = function(config) {
   var config = config || {};
  
   Ext.applyIf(config, {
     title: 'Header'
   });
  
-  Ext.ux.MVC.plugin.LeftMenuViewportBuilder.MenuHeader.superclass.constructor.call(this, config);
+  ExtMVC.plugin.LeftMenuViewportBuilder.MenuHeader.superclass.constructor.call(this, config);
 };
-Ext.extend(Ext.ux.MVC.plugin.LeftMenuViewportBuilder.MenuHeader, Ext.Component, {
+Ext.extend(ExtMVC.plugin.LeftMenuViewportBuilder.MenuHeader, Ext.Component, {
   /**
    * Renders the HTML for this component
    * @param {Ext.Container} ct The container to render this component to
@@ -25,8 +25,8 @@ Ext.extend(Ext.ux.MVC.plugin.LeftMenuViewportBuilder.MenuHeader, Ext.Component, 
       html: this.initialConfig.title
     });
   
-    Ext.ux.MVC.plugin.LeftMenuViewportBuilder.MenuHeader.superclass.onRender.apply(this, arguments);
+    ExtMVC.plugin.LeftMenuViewportBuilder.MenuHeader.superclass.onRender.apply(this, arguments);
   }
 });
 
-Ext.reg('menu_header', Ext.ux.MVC.plugin.LeftMenuViewportBuilder.MenuHeader);
+Ext.reg('menu_header', ExtMVC.plugin.LeftMenuViewportBuilder.MenuHeader);

@@ -2,9 +2,9 @@ var MyApp = {};
 
 /**
  * @class MyApp.OS
- * @extends Ext.ux.MVC.OS
+ * @extends ExtMVC.OS
  */
-MyApp.OS = Ext.extend(Ext.ux.MVC.OS, {
+MyApp.OS = Ext.extend(ExtMVC.OS, {
   name:            "MyApp",
   usesHistory:     true,
   viewportBuilder: "leftmenu",
