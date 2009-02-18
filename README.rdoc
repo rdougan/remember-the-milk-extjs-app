@@ -10,20 +10,97 @@ http://localhost/myDirectory/index.html
 
 You should see a default application set up and ready to go.
 
+== Getting Started
+
+The only thing you need to change is the namespace your application will be using.  Choose a meaningful namespace for your application - e.g. for
+a blog application you might choose BlogApp, or something similar.  All of your code will sit under that namespace, like this:
+
+BlogApp.models.Post                 // reference to a Post model constructor
+BlogApp.controllers.IndexController // reference to a controller constructor
+BlogApp.views.posts.New             // reference to a view constructor, usually an Ext.Panel subclass
+
+It doesn't matter if you don't know what those do yet, the important thing is that you don't pollute the global namespace.  The whole of Ext MVC is
+build around this idea.
+
+If you are using the base app, you'll need to change the references from the default 'MyApp' namespace to your own namespace in the following files:
+
+app/OS.js
+app/controllers/IndexController.js
+app/views/index/Index.js
+config/initialize.js
+
+Just use a simple find/replace all.
+
+To enable the use of the build tools and generators below, you should also change the namespace config option in config/settings.yml to the namespace 
+you use for your app.  There will be a script to do this all automatically shortly.
+
 == Build tools
 
 You need to ensure you have Ruby installed to use the build tools, and also the rake and hpricot gems (sudo gem install rake hpricot).
 
 Ext MVC will automatically build (concatenate and minify) your javascript and CSS files.  Just run the following command from the base directory:
 
-rake extmvc:build:all
+ruby script/build all
 
 This will inspect the javascript and css include tags inside index.html and compress them into a single JS file and a single CSS file.  It will minify
-the javascript if java is installed and create the following files:
+the javascript if the YUI Compressor is installed in vendor/yui-compressor and create the following files:
 
 public/application-all.js
 public/application-all-min.js
 public/stylesheets/application-all.css
+
+== Generators:
+
+Ext MVC comes with some built-in generators to automate some aspects of application development.  Run the generators
+described below from within the main directory of your Ext MVC application.
+
+Be sure that you have updated your config/settings.yml file before running these, otherwise everything will be namespaced
+to 'MyApp' (see above).
+
+=== Model
+
+ruby script/generate model User first_name:string last_name:string balance:int is_admin:boolean
+
+Will generate the following files:
+
+in app/models/User.js:
+/**
+ * @class MyApp.models.MyModel
+ * @extends ExtMVC.Model
+ */
+ExtMVC.Model.define("MyApp.models.User", {
+  modelName: 'user',
+  fields:    [
+    {name: 'first_name', type: 'string'},
+    {name: 'last_name',  type: 'string'},
+    {name: 'balance',    type: 'int'},
+    {name: 'is_admin',   type: 'boolean'}
+  ]
+});
+
+in spec/models/User.spec.js:
+Screw.Unit(function() {
+  describe("The User class", function() {
+    var user;
+    before(function() {
+      user = new MyApp.models.User({
+        //set fields for this model here
+      });
+    });
+    
+    //create your unit tests here
+  });
+});
+
+It will also add the following line to your index.html file:
+
+<script type="text/javascript" src="app/models/User.js"></script>
+
+And the following to your spec/index.html file:
+
+<script type="text/javascript" src="../app/models/User.js"></script>
+<script type="text/javascript" src="models/User.spec.js"></script>
+
 
 == Deployment
 
