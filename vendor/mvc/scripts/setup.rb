@@ -17,10 +17,9 @@ module ExtMVC
   
   private
   
-  #find/replace in a file.  Stolen wholesale from Rails
-  def self.gsub_file(relative_destination, regexp, *args, &block)
-    path = destination_path(relative_destination)
-    content = File.read(path).gsub(regexp, *args, &block)
-    File.open(path, 'wb') { |file| file.write(content) }
+  #find/replace in a file.  Stolen/adapted from Rails
+  def self.gsub_file(filename, regexp, *args, &block)
+    content = File.read(filename).gsub(regexp, *args, &block)
+    File.open(filename, 'wb') { |file| file.write(content) }
   end
 end
