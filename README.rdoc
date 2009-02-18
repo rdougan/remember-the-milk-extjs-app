@@ -10,6 +10,21 @@ http://localhost/myDirectory/index.html
 
 You should see a default application set up and ready to go.
 
+== Prerequisites
+
+Most prerequisites are installed for you inside the vendor directory:
+
+* vendor/ext            - contains a copy of ExtJS v2.2.1 (debug version, production copy by defaults comes off the cachefly CDN)
+* vendor/mvc            - contains a copy of the latest stable version of Ext MVC (debug and minified versions)
+* vendor/screw-unit     - contains a copy of ScrewUnit, a BDD testing framework for JavaScipt
+* vendor/yui-compressor - contains a copy of the YUI compressor, which is used in the automatic build process
+
+Although is is not strictly a prerequisite, you are *strongly* advised to install Ruby and Rubygems as the scripts below will automate a lot of things 
+for you and save you a lot of time.  If you're running OSX you probably already have these, if you're on Windows it's a very simple install process.
+Take a look at http://rubyonrails.org/download for instructions (just the Ruby and RubyGems sections).
+
+If you don't intend to use the Ruby automation scripts, you can safely delete the script, vendor/mvc/scripts and vendor/yui-compressor folders.
+
 == Getting Started
 
 The only thing you need to change is the namespace your application will be using.  Choose a meaningful namespace for your application - e.g. for
@@ -22,17 +37,22 @@ a blog application you might choose BlogApp, or something similar.  All of your 
 It doesn't matter if you don't know what those do yet, the important thing is that you don't pollute the global namespace.  The whole of Ext MVC is
 build around this idea.
 
-If you are using the base app, you'll need to change the references from the default 'MyApp' namespace to your own namespace in the following files:
+Once you've chosen your namespace, just run the following command:
+
+ruby script/setup MyAppNamespace
+
+This will update all files with the default namespace ('MyApp') with the namespace you specify.
+
+If you can't run the script, you can easily perform the setup yourself - just change the references from the default 'MyApp' namespace to your own 
+namespace in the following files:
 
 * app/OS.js
 * app/controllers/IndexController.js
 * app/views/index/Index.js
 * config/initialize.js
+* config/settings.yml
 
 Just use a simple find/replace all.
-
-To enable the use of the build tools and generators below, you should also change the namespace config option in config/settings.yml to the namespace 
-you use for your app.  There will be a script to do this all automatically shortly.
 
 == Build tools
 
@@ -45,9 +65,9 @@ ruby script/build all
 This will inspect the javascript and css include tags inside index.html and compress them into a single JS file and a single CSS file.  It will minify
 the javascript if the YUI Compressor is installed in vendor/yui-compressor and create the following files:
 
-public/application-all.js
-public/application-all-min.js
-public/stylesheets/application-all.css
+* public/application-all.js
+* public/application-all-min.js
+* public/stylesheets/application-all.css
 
 == Generators:
 
