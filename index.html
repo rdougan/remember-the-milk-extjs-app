@@ -39,6 +39,11 @@
     <div id="ext-mvc-application">
       <script type="text/javascript" src="app/OS.js"></script>
       
+      <div id="ext-mvc-lib">
+        <script type="text/javascript" src="lib/md5.js"></script>
+        <script type="text/javascript" src="lib/RTM.Generator.js"></script>
+      </div>
+      
       <div id="ext-mvc-application-models">
         
       </div>
@@ -51,5 +56,43 @@
         <script type="text/javascript" src="app/views/index/Index.js"></script>
       </div>
     </div>
+    
+    <script type="text/javascript" charset="utf-8">
+      Ext.onReady(function() {
+        
+        // test paramaters
+        var params = [
+          {name: 'method', value: 'rtm.tasks.getList'}
+        ];
+        
+        // Generator
+        var generator = new RTM.Generator();
+        
+        var url = generator.build(params);
+        
+        console.log(url);
+        
+        var task = Ext.data.Record.create([
+          {name: 'id', mapping: '@id'},
+          {name: 'name'}
+        ]);
+        
+        var store = new Ext.data.Store({
+          proxy: new Ext.data.ScriptTagProxy({
+            url:    url,
+            method: "GET"
+          }),
+          reader: new Ext.data.XmlReader({
+            row: 'taskseries'
+          }, task),
+          scope: this
+        });
+        
+        store.load();
+        
+        console.log(store);
+        
+      });
+    </script>
   </body>
 </html>

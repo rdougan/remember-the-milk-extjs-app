@@ -7,5 +7,5 @@ Ext.BLANK_IMAGE_URL = 'images/default/s.gif';
 Ext.onReady(function() {
   Ext.QuickTips.init();
   
-  MyApp.OS.launch();
+  RTM.OS.launch();
 });

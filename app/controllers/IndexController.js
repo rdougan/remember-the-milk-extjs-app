@@ -1,17 +1,17 @@
 /**
- * @class MyApp.controllers.IndexController
+ * @class RTM.controllers.IndexController
  * @extends ExtMVC.Controller
  * Default root controller
  */
-MyApp.controllers.IndexController = Ext.extend(ExtMVC.Controller, {
+RTM.controllers.IndexController = Ext.extend(ExtMVC.Controller, {
   constructor: function() {
     //super
-    MyApp.controllers.IndexController.superclass.constructor.call(this, {
-      viewsPackage: MyApp.views.index
+    RTM.controllers.IndexController.superclass.constructor.call(this, {
+      viewsPackage: RTM.views.index
     });
   }
 });
 
-ExtMVC.OS.getOS().registerController('index', MyApp.controllers.IndexController);
+ExtMVC.OS.getOS().registerController('index', RTM.controllers.IndexController);
 
-Ext.ns('MyApp.views.index');
+Ext.ns('RTM.views.index');

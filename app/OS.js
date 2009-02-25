@@ -1,11 +1,11 @@
-var MyApp = {};
+var RTM = {};
 
 /**
- * @class MyApp.OS
+ * @class RTM.OS
  * @extends ExtMVC.OS
  */
-MyApp.OS = Ext.extend(ExtMVC.OS, {
-  name:            "MyApp",
+RTM.OS = Ext.extend(ExtMVC.OS, {
+  name:            "RTM",
   usesHistory:     true,
   viewportBuilder: "leftmenu",
   
@@ -21,4 +21,4 @@ MyApp.OS = Ext.extend(ExtMVC.OS, {
   }
 });
 
-MyApp.OS = new MyApp.OS();
+RTM.OS = new RTM.OS();
